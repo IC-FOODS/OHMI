@@ -1,0 +1,24 @@
+[URI of the OWL(RDF/XML) output file]
+http://purl.obolibrary.org/obo/ohmi/HP_import.owl
+
+[Source ontology]
+HP
+
+[Low level source term URIs]
+http://purl.obolibrary.org/obo/UPHENO_0001002
+http://purl.obolibrary.org/obo/HP_0001513 #obesity
+http://purl.obolibrary.org/obo/HP_0002014 #diarrhea
+http://purl.obolibrary.org/obo/HP_0002028 #Chronic diarrhea
+
+[Top level source term URIs and target direct superclass URIs]
+
+http://purl.obolibrary.org/obo/UPHENO_0001001 # Phenotype
+subClassOf http://purl.obolibrary.org/obo/BFO_0000019 # quality 
+
+[Source term retrieval setting]
+includeComputedIntermediates
+
+[Source annotation URIs]
+includeAllAnnotationProperties
+
+[Source annotation URIs to be excluded]

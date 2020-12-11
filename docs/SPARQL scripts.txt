@@ -1,0 +1,50 @@
+#Goal: find diseases associated with E. coli in human gut
+
+PREFIX Escherichia: <http://purl.obolibrary.org/obo/NCBITaxon_561>
+PREFIX disease: <http://purl.obolibrary.org/obo/DOID_4>
+PREFIX microb_increased_in_human_gut_with_disease: <http://purl.obolibrary.org/obo/OHMI_0000059>
+SELECT distinct (STR(?microbe_label) AS ?microbe_label) (STR(?disease_label) AS ?disease_label) 
+FROM <http://purl.obolibrary.org/obo/merged/OHMI>
+WHERE
+{
+   ?microbe rdfs:label ?microbe_label .
+   ?disease rdfs:label ?disease_label .
+   ?microbe rdfs:subClassOf Escherichia: option (transitive) . 
+   ?disease rdfs:subClassOf disease: option (transitive) .
+   ?microbe rdfs:subClassOf ?microbe_restriction . 
+   ?microbe_restriction owl:onProperty microb_increased_in_human_gut_with_disease:; owl:someValuesFrom ?disease .
+}
+
+--
+    # Goal: find E. coli-associated human-microbiome interactions 
+PREFIX Escherichia: <http://purl.obolibrary.org/obo/NCBITaxon_561>
+PREFIX has_microbe_expanded_in_diseaseed_host: <http://purl.obolibrary.org/obo/OHMI_0000423>
+PREFIX human_microbiome_interaction: <http://purl.obolibrary.org/obo/OHMI_0000019> 
+SELECT distinct (STR(?microbe_label) AS ?microbe_label) (STR(?interaction_label) AS ?interaction_label) 
+FROM <http://purl.obolibrary.org/obo/merged/OHMI>
+WHERE
+{
+   ?microbe rdfs:label ?microbe_label .
+   ?interaction rdfs:label ?interaction_label .
+   ?microbe rdfs:subClassOf Escherichia: option (transitive) . 
+   ?interaction rdfs:subClassOf human_microbiome_interaction: option (transitive) .
+   ?interaction rdfs:subClassOf ?interaction_restriction . 
+   ?interaction_restriction owl:onProperty has_microbe_expanded_in_diseaseed_host:; owl:someValuesFrom ?microbe .
+}
+
+--
+    # Goal: find all microbiome microbes associated with rheumatoid arthritis (RA) 
+PREFIX organism: <http://purl.obolibrary.org/obo/CARO_0001010>
+PREFIX RA: <http://purl.obolibrary.org/obo/DOID_7148>
+SELECT distinct ?microbe (STR(?microbe_label) AS ?microbe_label) ?relation_label (STR(?disease_label) AS ?disease_label) 
+# SELECT count(distinct ?microbe) 
+FROM <http://purl.obolibrary.org/obo/merged/OHMI>
+WHERE
+{
+   ?microbe rdfs:label ?microbe_label .
+   RA: rdfs:label ?disease_label .
+   ?relation rdfs:label ?relation_label .
+   ?microbe rdfs:subClassOf organism: option (transitive) . 
+   ?microbe rdfs:subClassOf ?microbe_restriction . 
+   ?microbe_restriction owl:onProperty ?relation; owl:someValuesFrom RA: .
+}
